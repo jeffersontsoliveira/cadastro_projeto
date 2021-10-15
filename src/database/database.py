@@ -10,6 +10,7 @@ connection = PostgresqlDatabase(
     port = '5432'
 )
 
+
 class BaseModel(Model):
     class Meta:
         database = connection
@@ -21,7 +22,12 @@ class BaseModel(Model):
 
     @json.getter
     def json(self) -> dict:
-        return model_to_dict(self, backrefs=True, recurse=False)
+        return model_to_dict(
+            self,
+            backrefs=True,
+            recurse=False,
+            exclude=self.exclude
+        )
 
     @classmethod
     def validate(cls, **data) -> dict:
@@ -30,4 +36,13 @@ class BaseModel(Model):
 
         return validator.errors
 
+    @property
+    def exclude(self):
+        return None
+
+    @exclude.getter
+    def exclude(self):
+        return [
+
+        ]
 

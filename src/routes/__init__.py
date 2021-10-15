@@ -1,8 +1,6 @@
 from sanic import Blueprint
-from scr.routes.user import user
+from .app import app
+#from .session import session
 
 
-routes = Blueprint.group([user], url_prefix='/app')
-
-
-
+routes = Blueprint.group(app)

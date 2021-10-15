@@ -1,6 +1,6 @@
 from sanic import Blueprint
 from sanic.request import Request
-from scr.controllers.users import UserController
+from src.controllers.users import UserController
 
 user = Blueprint('content_user', url_prefix='/users')
 
@@ -27,5 +27,6 @@ async def destroy(request: Request, uid):
 @user.put('/<uid>')
 async def update(request: Request, uid):
     return await UserController.update(request, uid)
+
 
 

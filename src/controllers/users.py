@@ -2,11 +2,11 @@ import json
 
 from sanic.request import Request
 from sanic import response
-from scr.models.user import User
-from scr.DataBase.database import connection
+from src.models.user import User
+from src.database.database import connection
 from peewee_validates import ModelValidator
 from playhouse.shortcuts import model_to_dict
-from scr.utils.serialize import Serialize
+from src.utils.serialize import Serialize
 from datetime import datetime
 
 class UserController:
@@ -114,5 +114,3 @@ class UserController:
         user.delete_instance(recursive=True)
 
         return response.empty()
-
-

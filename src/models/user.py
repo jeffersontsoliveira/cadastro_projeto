@@ -1,6 +1,7 @@
-from scr.DataBase.database import BaseModel
+from src.database.database import BaseModel
 from datetime import datetime
 import peewee
+
 
 class User(BaseModel):
     name = peewee.CharField()
@@ -15,4 +16,14 @@ class User(BaseModel):
     class Meta:
         table_name = '_user'
 
+    @property
+    def exclude(self):
+        return None
+
+    @exclude.getter
+    def exclude(self):
+        return [
+            User.password,
+            User.admim
+        ]
 

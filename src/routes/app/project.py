@@ -1,22 +1,33 @@
-from sanic import Blueprint, response
+from sanic import Blueprint
 from sanic.request import Request
-from scr.controllers.message import MessageController
+from src.controllers.projects import ProjectController
 
-message = Blueprint('content_messege', url_prefix='/message')
-
-
-@message.middlewares('request')
-async def middleware(request: Request):
-    pass
+project = Blueprint('content_project', url_prefix='/project')
 
 
-@message.get('/')
+@project.get('/')
 async def index(request: Request):
-    return await MessageController.index(request)
+    return await ProjectController.index(request)
 
-@message.post('/')
+
+@project.get('/<uid>')
+async def show(request: Request, uid):
+    return await ProjectController.show(request, uid)
+
+
+@project.post('/')
 async def store(request: Request):
-    return await MessageController.store(request)
+    return await ProjectController.store(request)
+
+
+@project.delete('/<uid>')
+async def destroy(request: Request, uid):
+    return await ProjectController.destroy(request, uid)
+
+
+@project.put('/<uid>')
+async def update(request: Request, uid):
+    return await ProjectController.update(request, uid)
 
 
 
