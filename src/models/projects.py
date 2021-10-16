@@ -8,7 +8,6 @@ class Project(BaseModel):
     name_project = peewee.CharField()
     description = peewee.CharField()
     target = peewee.CharField()
-    user_project = peewee.ForeignKeyField(User)
 
     createdAt = peewee.DateTimeField(default=datetime.utcnow())
     updatedAt = peewee.DateTimeField(default=datetime.utcnow())
