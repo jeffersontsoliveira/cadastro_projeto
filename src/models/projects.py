@@ -8,6 +8,10 @@ class Project(BaseModel):
     name_project = peewee.CharField()
     description = peewee.CharField()
     target = peewee.CharField()
+    users = peewee.ManyToManyField(User, backref='projects')
 
     createdAt = peewee.DateTimeField(default=datetime.utcnow())
     updatedAt = peewee.DateTimeField(default=datetime.utcnow())
+
+ProjectUser = Project.users.get_through_model()
+

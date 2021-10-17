@@ -1,10 +1,8 @@
-from .projects import Project
+from .projects import Project, ProjectUser
 from .user import User
-from .projectuser import Projectuser
-
 
 tables = [
     Project,
     User,
-    Projectuser
+    ProjectUser
 ]
