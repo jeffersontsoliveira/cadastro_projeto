@@ -3,6 +3,7 @@ import json
 from sanic.request import Request
 from sanic import response
 from src.models.projects import Project
+from src.models.user import User
 from src.database.database import connection
 from peewee_validates import ModelValidator
 from playhouse.shortcuts import model_to_dict
@@ -15,12 +16,12 @@ class ProjectController:
     async def index(request: Request):
         page = 1
         size = 5
-        sizes =[5, 10, 20]
+        sizes = [5, 10, 20]
 
         if 'page' in request.args:
             _page: str = request.args['page'][0]
             if not _page.isnumeric():
-                return response.json({'pages':'arguments page must be numeric'}, status=400)
+                return response.json({'pages': 'arguments page must be numeric'}, status=400)
 
             page: int = int(_page)
 
@@ -33,7 +34,6 @@ class ProjectController:
             _size: int = int(_size)
             if _size in sizes:
                 size = _size
-
 
         projects = []
         query = Project.select()
@@ -82,7 +82,7 @@ class ProjectController:
         project = Project.get_or_none(id=uid)
 
         if project is None:
-            return response.json({'project':'project not found '}, status=404)
+            return response.json({'project': 'project not found '}, status=404)
 
         data = request.json.copy()
 
@@ -100,9 +100,6 @@ class ProjectController:
 
         return response.json(project_dict, dumps=json.dumps, cls=Serialize)
 
-
-
-
     @staticmethod
     async def destroy(request: Request, uid: str):
         project = Project.get_or_none(id=uid)
@@ -113,3 +110,36 @@ class ProjectController:
         project.delete_instance(recursive=True)
 
         return response.empty()
+
+
+class ProjectUSer:
+    @staticmethod
+    async def index(request: Request):
+        pass
+
+    @staticmethod
+    async def destroy(request: Request, uid: str):
+        pass
+
+    @staticmethod
+    async def add_user(id_users: int, id_project: int):
+
+        print("aaaaaaaaaaaaaaaaaaaaa")
+
+        project = Project.get_by_id(id_project)
+        print("ccccccccccccccccccc", Project.users)
+        print("passou")
+        # project = Project.get_or_none(id=id_project)
+        user = User.get_by_id(id_users)
+
+        print("User: ", user)
+        print("Project: aaaaa", type(project))
+
+
+        project.users.add(user)
+        users = [model_to_dict(user) for user in project.users]
+
+        return response.json(users, dumps=json.dumps, cls=Serialize)
+
+
+

@@ -66,6 +66,8 @@ class UserController:
         with connection.atomic() as transaction:
             data = request.json
 
+            print(data)
+
             errors = User.validate(**data)
 
             if bool(errors):

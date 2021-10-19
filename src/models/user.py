@@ -5,7 +5,7 @@ import peewee
 
 class User(BaseModel):
     name = peewee.CharField()
-    username = peewee.CharField()
+    username = peewee.CharField(unique=True)
     password = peewee.CharField()
     email = peewee.CharField(unique=True)
     admim = peewee.BooleanField(default=False)
