@@ -1,6 +1,6 @@
 from sanic import Blueprint, response
 from sanic.request import Request
-from src.controllers.projects import ProjectUSer
+from src.controllers.projectuser import ProjectUSerController
 #from src.controllers.authorization import app_authorization
 
 projectuser = Blueprint('content_message', url_prefix='/projects')
@@ -9,14 +9,26 @@ projectuser = Blueprint('content_message', url_prefix='/projects')
 @projectuser.get('/<uid>')
 #@app_authorization()
 async def index(request: Request, uid):
-    return await ProjectUSer.index(request, uid)
+    return await ProjectUSerController.index(uid)
 
-@projectuser.delete('/<uid>')
-async def destroy(request: Request, uid):
-    return await ProjectUSer.destroy(request, uid)
+
+@projectuser.get('/user/<uid>')
+#@app_authorization()
+async def show(request: Request, uid):
+    return await ProjectUSerController.show(uid)
+
+
+@projectuser.delete('/<id_project:int>/user/<id_users:int>')
+async def destroy(request: Request, id_project, id_users):
+    return await ProjectUSerController.destroy(id_project, id_users)
+
+
+@projectuser.delete('/alluser/<id_project:int>')
+async def destroy_all(request: Request, id_project):
+    return await ProjectUSerController.destroy_all(id_project)
+
 
 @projectuser.patch('/<id_project:int>/user/<id_users:int>')
 #@app_authorization()
 async def add_user(request: Request, id_project, id_users):
-    print(id_project, id_users)
-    return await ProjectUSer.add_user(id_users, id_project)
+    return await ProjectUSerController.add_user(id_project, id_users)

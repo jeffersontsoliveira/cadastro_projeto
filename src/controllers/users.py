@@ -66,16 +66,12 @@ class UserController:
         with connection.atomic() as transaction:
             data = request.json
 
-            print(data)
-
             errors = User.validate(**data)
 
             if bool(errors):
                 return response.json(errors, status=400)
 
             user: User = User.create(**data)
-
-
 
         return response.json(user.json, status=201, dumps=json.dumps, cls=Serialize)
 

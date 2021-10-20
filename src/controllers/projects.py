@@ -111,35 +111,3 @@ class ProjectController:
 
         return response.empty()
 
-
-class ProjectUSer:
-    @staticmethod
-    async def index(request: Request):
-        pass
-
-    @staticmethod
-    async def destroy(request: Request, uid: str):
-        pass
-
-    @staticmethod
-    async def add_user(id_users: int, id_project: int):
-
-        print("aaaaaaaaaaaaaaaaaaaaa")
-
-        project = Project.get_by_id(id_project)
-        print("ccccccccccccccccccc", Project.users)
-        print("passou")
-        # project = Project.get_or_none(id=id_project)
-        user = User.get_by_id(id_users)
-
-        print("User: ", user)
-        print("Project: aaaaa", type(project))
-
-
-        project.users.add(user)
-        users = [model_to_dict(user) for user in project.users]
-
-        return response.json(users, dumps=json.dumps, cls=Serialize)
-
-
-
