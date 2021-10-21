@@ -54,6 +54,7 @@ class UserController:
 
     @staticmethod
     async def show(request: Request, uid: str):
+
         user = User.get_or_none(id=uid)
 
         if user is None:

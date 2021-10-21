@@ -3,7 +3,7 @@ from sanic.request import Request
 from src.controllers.projectuser import ProjectUSerController
 #from src.controllers.authorization import app_authorization
 
-projectuser = Blueprint('content_message', url_prefix='/projects')
+projectuser = Blueprint('content_projectuser', url_prefix='/projects')
 
 
 @projectuser.get('/<uid>')
