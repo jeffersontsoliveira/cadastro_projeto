@@ -2,8 +2,8 @@ from sanic import Blueprint
 from .user import user
 from .project import project
 from .projectuser import projectuser
-from .po import projectpo
+from .client import client
 
-app = Blueprint.group([user, project, projectuser, projectpo], url_prefix='/app')
+app = Blueprint.group([user, project, projectuser, client], url_prefix='/app')
 
 

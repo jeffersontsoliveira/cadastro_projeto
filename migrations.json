@@ -1,0 +1,10 @@
+{
+  "prerun": "# some code here",
+  "directory": "migrations",
+  "history": "migratehistory",
+  "models": [
+    "src/models/client.py",
+    "src/models/projects.py",
+    "src/models/user.py"
+  ]
+}

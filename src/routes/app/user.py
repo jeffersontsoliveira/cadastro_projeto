@@ -9,7 +9,7 @@ async def index(request: Request):
     return await UserController.index(request)
 
 
-@user.get('/<uid>')
+@user.get('/<uid:int>')
 async def show(request: Request, uid):
     return await UserController.show(request, uid)
 
@@ -19,12 +19,12 @@ async def store(request: Request):
     return await UserController.store(request)
 
 
-@user.delete('/<uid>')
+@user.delete('/<uid:int>')
 async def destroy(request: Request, uid):
     return await UserController.destroy(request, uid)
 
 
-@user.put('/<uid>')
+@user.put('/<uid:int>')
 async def update(request: Request, uid):
     return await UserController.update(request, uid)
 
