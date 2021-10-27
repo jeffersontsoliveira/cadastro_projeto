@@ -3,8 +3,11 @@
   "directory": "migrations",
   "history": "migratehistory",
   "models": [
-    "src/models/client.py",
-    "src/models/projects.py",
-    "src/models/user.py"
+    "src.models.client.Client",
+    "src.models.user.User",
+    "src.models.projects.Project",
+    "src.models.projects.ProjectUser",
+    "src.models.dashboard.Lists",
+    "src.models.dashboard.Notes"
   ]
 }

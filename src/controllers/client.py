@@ -46,7 +46,7 @@ class ClientController:
 
         data = dict()
         data['pages'] = pages
-        data['users'] = clients
+        data['clients'] = clients
 
         return response.json(data, dumps=json.dumps, cls=Serialize)
 
@@ -73,18 +73,38 @@ class ClientController:
 
         return response.json(client.json, status=201, dumps=json.dumps, cls=Serialize)
 
-    # @staticmethod
-    # async def update(request: Request, uid):
-    #     client = Client.get_or_none(uid)
-    #
-    #     if client is None:
-    #         return response.json({'client' : 'client not found'},status=404)
-    #
-    #     data = request.json.copy()
-    #
-    #     client_dict = client.json
-    #     client_dict.update(data)
-    #
-    #     errors = Client.validate()
+    @staticmethod
+    async def update(request: Request, uid):
+        client = Client.get_or_none(uid)
+
+        if client is None:
+            return response.json({'client': 'client not found'}, status=404)
+
+        data = request.json.copy()
+
+        client_dict = client.json
+        client_dict.update(data)
+
+        errors = Client.validate(**client_dict)
+
+        if bool(errors):
+            return response.json(errors, status=400)
+
+        client_dict['updatedAt'] = datetime.utcnow()
+
+        Client.update(**client_dict).where(Client.id == client.id).execute()
+
+        return response.json(client_dict, dumps=json.dumps, cls=Serialize)
+
+    @staticmethod
+    async def destroy(request: Request, uid: int):
+        client = Client.get_or_none(id=uid)
+
+        if client is None:
+            return response.json({'client': 'client not found'}, status=404)
+
+        client.delete_instance(recursive=True)
+
+        return response.json({'client': 'client deleted'}, status=201)
 
 

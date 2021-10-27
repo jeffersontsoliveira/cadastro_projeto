@@ -1,11 +1,13 @@
-from .projects import Project, ProjectUser, ProjectClient
+from .projects import Project, ProjectUser
 from .user import User
 from .client import Client
+from .dashboard import Lists, Notes
 
 tables = [
     Project,
     User,
     Client,
     ProjectUser,
-    ProjectClient,
+    Lists,
+    Notes
 ]
