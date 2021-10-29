@@ -1,11 +1,14 @@
 from src.database.database import BaseModel
 from datetime import datetime
+from datetime import date
 import peewee
 
 
 class User(BaseModel):
     name = peewee.CharField()
-    username = peewee.CharField(unique=True)
+    born_date = peewee.DateField(null=True)
+    occupation = peewee.CharField(null=True)
+    skills = peewee.TextField(null=True)
     password = peewee.CharField()
     email = peewee.CharField(unique=True)
     admim = peewee.BooleanField(default=False)

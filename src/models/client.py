@@ -5,7 +5,7 @@ import peewee
 
 class Client(BaseModel):
     company = peewee.CharField()
-    fictitious_name = peewee.CharField(unique=True)
+    fictitious_name = peewee.CharField(unique=True, null=True)
     admim = peewee.BooleanField(default=False)
 
     createdAt = peewee.DateTimeField(default = datetime.utcnow())

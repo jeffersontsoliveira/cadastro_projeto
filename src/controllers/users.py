@@ -67,12 +67,18 @@ class UserController:
         with connection.atomic() as transaction:
             data = request.json
 
-            errors = User.validate(**data)
+            occupations = ['backend', 'frontend', 'fullstack', 'tester', 'devops', 'ui']
 
-            if bool(errors):
-                return response.json(errors, status=400)
+            print(data)
 
-            user: User = User.create(**data)
+            if data['occupation'] in occupations:
+                errors = User.validate(**data)
+
+                if bool(errors):
+                    return response.json(errors, status=400)
+
+                user: User = User.create(**data)
+            else: return response.json({'user':'occupation not found '}, status=400)
 
         return response.json(user.json, status=201, dumps=json.dumps, cls=Serialize)
 
@@ -85,20 +91,24 @@ class UserController:
             return response.json({'user':'user not found '}, status=404)
 
         data = request.json.copy()
+        occupations = ['backend', 'frontend', 'fullstack', 'tester', 'devops', 'ui']
 
-        user_dict = user.json
-        user_dict.update(data)
+        if data['occupation'] in occupations:
 
-        errors = User.validate(**user_dict)
+            user_dict = user.json
+            user_dict.update(data)
 
-        if bool(errors):
-            return response.json(errors, status=400)
+            errors = User.validate(**user_dict)
 
-        user_dict['updatedAt'] = datetime.utcnow()
+            if bool(errors):
+                return response.json(errors, status=400)
 
-        User.update(**user_dict).where(User.id == user.id).execute()
+            user_dict['updatedAt'] = datetime.utcnow()
 
-        return response.json(user_dict, dumps=json.dumps, cls=Serialize)
+            User.update(**user_dict).where(User.id == user.id).execute()
+
+            return response.json(user_dict, dumps=json.dumps, cls=Serialize)
+        else: return response.json({'user':'occupation not found '}, status=400)
 
 
 
