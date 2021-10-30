@@ -1,5 +1,6 @@
 from src.database.database import BaseModel
 from datetime import datetime
+from playhouse.postgres_ext import ArrayField
 from datetime import date
 import peewee
 
@@ -8,7 +9,11 @@ class User(BaseModel):
     name = peewee.CharField()
     born_date = peewee.DateField(null=True)
     occupation = peewee.CharField(null=True)
-    skills = peewee.TextField(null=True)
+    skills = peewee.ArrayField(null=True)
+    academic_bond = peewee.CharField(null=True)
+    integration_date = peewee.DateField(null=True)
+    whatszap = peewee.CharField(null=True)
+    remuneration = peewee.CharField(null=True)
     password = peewee.CharField()
     email = peewee.CharField(unique=True)
     admim = peewee.BooleanField(default=False)

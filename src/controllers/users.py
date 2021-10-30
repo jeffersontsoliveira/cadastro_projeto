@@ -67,11 +67,11 @@ class UserController:
         with connection.atomic() as transaction:
             data = request.json
 
-            occupations = ['backend', 'frontend', 'fullstack', 'tester', 'devops', 'ui']
+            occupations = ['backend', 'frontend', 'fullstack', 'tester', 'devops', 'ui', '']
 
             print(data)
 
-            if data['occupation'] in occupations:
+            if (['occupation'] is not data or data['occupation'] in occupations):
                 errors = User.validate(**data)
 
                 if bool(errors):
