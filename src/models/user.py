@@ -7,12 +7,12 @@ import peewee
 
 class User(BaseModel):
     name = peewee.CharField()
-    born_date = peewee.DateField(null=True)
+    born_date = peewee.DateField(null=True, formats=['%Y-%m-%d'])
     occupation = peewee.CharField(null=True)
-    skills = peewee.ArrayField(null=True)
+    skills = peewee.TextField(null=True)
     academic_bond = peewee.CharField(null=True)
-    integration_date = peewee.DateField(null=True)
-    whatszap = peewee.CharField(null=True)
+    integration_date = peewee.DateField(null=True, formats=['%Y-%m-%d'])
+    whats_app = peewee.CharField(null=True)
     remuneration = peewee.CharField(null=True)
     password = peewee.CharField()
     email = peewee.CharField(unique=True)
