@@ -106,8 +106,12 @@ class UserController:
                     errors = User.validate(**data)
                 else: return response.json({'user': 'remunerations not found'}, status=400)
 
-            if data['born_date'] != ['%Y-%m-%d']:
-                return response.json({'user': 'date must be yyyy/mm/dd'}, status=400)
+            if 'born_date' not in data:
+                errors = User.validate(**data)
+            else:
+                if data['born_date'] != ['%Y-%m-%d']:
+                    errors = User.validate(**data)
+                else: return response.json({'user': 'date must be yyyy/mm/dd'}, status=400)
 
             if bool(errors):
                 return response.json(errors, status=400)
@@ -146,10 +150,6 @@ class UserController:
 
         return response.json(user_dict, dumps=json.dumps, cls=Serialize)
 
-
-
-
-
     @staticmethod
     async def destroy(request: Request, uid: str):
         user = User.get_or_none(id=uid)
@@ -160,3 +160,4 @@ class UserController:
         user.delete_instance(recursive=True)
 
         return response.empty()
+

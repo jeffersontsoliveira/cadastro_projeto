@@ -12,10 +12,9 @@ class Project(BaseModel):
     po = peewee.ForeignKeyField(User, null=True, backref='po')
     scrum_master = peewee.ForeignKeyField(User, null=True, backref='scrum')
     target = peewee.CharField()
-    users = peewee.ManyToManyField(User, backref='sla')
+    users = peewee.ManyToManyField(User, backref='p_users')
     createdAt = peewee.DateTimeField(default=datetime.utcnow())
     updatedAt = peewee.DateTimeField(default=datetime.utcnow())
-
 
 
 ProjectUser = Project.users.get_through_model()
