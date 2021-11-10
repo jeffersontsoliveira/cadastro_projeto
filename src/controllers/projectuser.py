@@ -18,7 +18,8 @@ class ProjectUSerController:
         if project is None:
             return response.json({'project': 'project not found '}, status=404)
 
-        users = [user.username for user in project.users]
+        users = [user.name for user in project.users]
+
 
         if len(users) is 0:
             return response.json({'project': 'project has no user associated'}, status=404)
@@ -53,7 +54,7 @@ class ProjectUSerController:
         print(users)
 
         if usera.name not in users:
-            print(usera.username)
+            print(usera.name)
             return response.json({'user': 'user not found '}, status=404)
 
         project.users.remove(usera)

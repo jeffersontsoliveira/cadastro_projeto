@@ -19,13 +19,13 @@ async def index_user(request: Request, uid):
 
 
 @userskills.delete('/<id_skills:int>/users/<id_users:int>')
-async def destroy(request: Request, id_project, id_users):
-    return await UserSkillsController.destroy(id_project, id_users)
+async def destroy(request: Request, id_skills, id_users):
+    return await UserSkillsController.destroy(id_skills, id_users)
 
 
 @userskills.delete('/users/delete/<id_skills:int>')
-async def destroy_all(request: Request, id_project):
-    return await UserSkillsController.destroy_all(id_project)
+async def destroy_all(request: Request, id_skills):
+    return await UserSkillsController.destroy_all(id_skills)
 
 
 @userskills.patch('/<id_skills:int>/user/<id_users:int>')

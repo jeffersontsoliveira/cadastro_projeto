@@ -7,7 +7,7 @@ import peewee
 
 
 class User(BaseModel):
-    name = peewee.CharField()
+    name = peewee.CharField(unique=True)
     born_date = peewee.DateField(formats=['%Y-%m-%d'])
     occupation = peewee.CharField(null=True)
     skills = peewee.ManyToManyField(Skills, backref='users')

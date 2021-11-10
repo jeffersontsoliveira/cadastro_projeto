@@ -128,6 +128,62 @@ class UserController:
 
         data = request.json.copy()
         occupations = ['backend', 'frontend', 'fullstack', 'tester', 'devops', 'ui']
+        bonds = ['graduating', 'masters_degree', 'doctoral_student', '']
+        remunerations = ['voluntary', 'paid']
+
+        if 'whats_app' not in data:
+            user_dict = user.json
+            user_dict.update(data)
+            errors = User.validate(**data)
+        else:
+            if data['whats_app'].isnumeric():
+
+                if 8 < len(data['whats_app']) < 15:
+                    whats_app_adj = phonenumbers.parse(data['whats_app'], "BR")
+                    whats_app_end = phonenumbers.format_number(whats_app_adj, phonenumbers.PhoneNumberFormat.NATIONAL)
+                    data['whats_app'] = whats_app_end
+                    user_dict = user.json
+                    user_dict.update(data)
+                else:
+                    return response.json({'user': 'what_app must be xxxxx-xxxx'}, status=400)
+            else:
+                return response.json({'user': 'argument what_app must be numeric'}, status=400)
+
+        if 'born_date' not in data:
+            user_dict = user.json
+            user_dict.update(data)
+            errors = User.validate(**data)
+        else:
+            if data['born_date'] != ['%Y-%m-%d']:
+                user_dict = user.json
+                user_dict.update(data)
+                errors = User.validate(**data)
+            else:
+                return response.json({'user': 'date must be yyyy/mm/dd'}, status=400)
+
+        if 'remuneration' not in data:
+            user_dict = user.json
+            user_dict.update(data)
+            errors = User.validate(**data)
+        else:
+            if data['remuneration'] in remunerations:
+                user_dict = user.json
+                user_dict.update(data)
+                errors = User.validate(**data)
+            else:
+                return response.json({'user': 'remunerations not found'}, status=400)
+
+        if 'academic_bond' not in data:
+            user_dict = user.json
+            user_dict.update(data)
+            errors = User.validate(**data)
+        else:
+            if data['academic_bond'] in bonds:
+                user_dict = user.json
+                user_dict.update(data)
+                errors = User.validate(**data)
+            else:
+                return response.json({'user': 'academic_bond not found'}, status=400)
 
         if 'occupation' not in data:
             user_dict = user.json
