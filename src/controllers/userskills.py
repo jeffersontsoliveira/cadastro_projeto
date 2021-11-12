@@ -25,22 +25,8 @@ class UserSkillsController:
 
         return response.json(skills, dumps=json.dumps, cls=Serialize)
 
-
     @staticmethod
-    async def index_user(uid: int):
-        user = User.get_or_none(id=uid)
-        if user is None:
-            return response.json({'user': 'user not found'}, status=404)
-
-        users = [[skill.skill_area, skill.skill_type, skill.skill_level] for skill in user.skills]
-
-        if len(users) is 0:
-            return response.json({'user': 'user has no skills'}, status=404)
-
-        return response.json(users, dumps=json.dumps, cls=Serialize)
-
-    @staticmethod
-    async def destroy(id_skills: int, id_users: int):
+    async def remove(id_skills: int, id_users: int):
         skill = Skills.get_or_none(id=id_skills)
         if skill is None:
             return response.json({'skill': 'skill not found '}, status=404)
@@ -62,7 +48,7 @@ class UserSkillsController:
         return response.empty()
 
     @staticmethod
-    async def destroy_all(id_skills: int):
+    async def remove_all(id_skills: int):
         skill = Skills.get_or_none(id=id_skills)
         if skill is None:
             return response.json({'skill': 'skill not found '}, status=404)
@@ -84,10 +70,26 @@ class UserSkillsController:
         if skill is None:
             return response.json({'skill': 'skill not found '}, status=404)
 
+        if user in skill.users:
+            return response.json({'user': 'user already has this skill'}, status=400)
+
         user.skills.add(skill)
         skills = [model_to_dict(user) for user in user.skills]
 
         return response.json(skills, dumps=json.dumps, cls=Serialize)
 
 
+class SkillsUserController:
+    @staticmethod
+    async def index_user(uid: int):
+        user = User.get_or_none(id=uid)
+        if user is None:
+            return response.json({'user': 'user not found'}, status=404)
+
+        users = [[skill.skill_area, skill.skill_type, skill.skill_level] for skill in user.skills]
+
+        if len(users) is 0:
+            return response.json({'user': 'user has no skills'}, status=404)
+
+        return response.json(users, dumps=json.dumps, cls=Serialize)
 

@@ -1,34 +1,36 @@
 from sanic import Blueprint, response
 from sanic.request import Request
 from src.controllers.projectuser import ProjectUSerController
+from src.controllers.projectuser import UserProjectController
 #from src.controllers.authorization import app_authorization
 
-projectuser = Blueprint('content_projectuser', url_prefix='/projects')
+projectuser = Blueprint('content_projectuser', url_prefix='C/<pid:int>/users')
+userproject = Blueprint('content_userproject', url_prefix='/user/<uid:int>/projects')
 
 
-@projectuser.get('/<uid:int>/users')
+@projectuser.get('/')
 #@app_authorization()
-async def index(request: Request, uid):
-    return await ProjectUSerController.index(uid)
+async def list_users(request: Request, pid):
+    return await ProjectUSerController.index(pid)
 
 
-@projectuser.get('/users/<uid:int>')
+@projectuser.delete('/')
+async def remove_all_users(request: Request, pid):
+    return await ProjectUSerController.destroy_all(pid)
+
+
+@projectuser.post('/<uid:int>')
 #@app_authorization()
-async def show(request: Request, uid):
-    return await ProjectUSerController.show(uid)
+async def add_user(request: Request, pid, uid):
+    return await ProjectUSerController.add_user(pid, uid)
 
 
-@projectuser.delete('/<id_project:int>/users/<id_users:int>')
-async def destroy(request: Request, id_project, id_users):
-    return await ProjectUSerController.destroy(id_project, id_users)
+@projectuser.delete('/<uid:int>')
+async def remove_user(request: Request, pid, uid):
+    return await ProjectUSerController.destroy(pid, uid)
 
 
-@projectuser.delete('/users/delete/<id_project:int>')
-async def destroy_all(request: Request, id_project):
-    return await ProjectUSerController.destroy_all(id_project)
-
-
-@projectuser.patch('/<id_project:int>/user/<id_users:int>')
+@userproject.get('/')
 #@app_authorization()
-async def add_user(request: Request, id_project, id_users):
-    return await ProjectUSerController.add_user(id_project, id_users)
+async def list_all_project(request: Request, uid):
+    return await UserProjectController.index(uid)

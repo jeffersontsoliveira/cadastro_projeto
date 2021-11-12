@@ -8,7 +8,7 @@ import peewee
 class Project(BaseModel):
     name_project = peewee.CharField(unique=True)
     description = peewee.CharField()
-    clients = peewee.ForeignKeyField(Client, null=True, backref='projects')
+    client = peewee.ForeignKeyField(Client, null=True, backref='projects')
     po = peewee.ForeignKeyField(User, null=True, backref='po')
     scrum_master = peewee.ForeignKeyField(User, null=True, backref='scrum')
     target = peewee.CharField()

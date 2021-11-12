@@ -1,34 +1,37 @@
 from sanic import Blueprint, response
 from sanic.request import Request
 from src.controllers.userskills import UserSkillsController
+from src.controllers.userskills import SkillsUserController
 #from src.controllers.authorization import app_authorization
 
-userskills = Blueprint('content_userskills', url_prefix='/userskills')
+userskills = Blueprint('content_userskills', url_prefix='/userskills/<id_skills:int>/users')
+
+skillsusers = Blueprint('content_skillusers', url_prefix='/skillsusers/<id_users:int>/skills')
 
 
-@userskills.get('/<uid:int>/users')
+@userskills.get('/')
 #@app_authorization()
-async def index_skill(request: Request, uid):
-    return await UserSkillsController.index_skill(uid)
+async def index_skill(request: Request, id_skills):
+    return await UserSkillsController.index_skill(id_skills)
 
 
-@userskills.get('/users/<uid:int>')
-#@app_authorization()
-async def index_user(request: Request, uid):
-    return await UserSkillsController.index_user(uid)
+@userskills.delete('/<id_users:int>')
+async def remove(request: Request, id_skills, id_users):
+    return await UserSkillsController.remove(id_skills, id_users)
 
 
-@userskills.delete('/<id_skills:int>/users/<id_users:int>')
-async def destroy(request: Request, id_skills, id_users):
-    return await UserSkillsController.destroy(id_skills, id_users)
+@userskills.delete('/delete')
+async def remove_all(request: Request, id_skills):
+    return await UserSkillsController.remove_all(id_skills)
 
 
-@userskills.delete('/users/delete/<id_skills:int>')
-async def destroy_all(request: Request, id_skills):
-    return await UserSkillsController.destroy_all(id_skills)
-
-
-@userskills.patch('/<id_skills:int>/user/<id_users:int>')
+@userskills.post('/<id_users:int>')
 #@app_authorization()
 async def add_user(request: Request, id_skills, id_users):
     return await UserSkillsController.add_skill(id_skills, id_users)
+
+
+@skillsusers.get('/')
+#@app_authorization()
+async def index_user(request: Request, id_users):
+    return await SkillsUserController.index_user(id_users)

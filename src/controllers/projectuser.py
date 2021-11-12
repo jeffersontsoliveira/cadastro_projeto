@@ -18,6 +18,7 @@ class ProjectUSerController:
         if project is None:
             return response.json({'project': 'project not found '}, status=404)
 
+
         users = [user.name for user in project.users]
 
 
@@ -26,18 +27,7 @@ class ProjectUSerController:
 
         return response.json(users, dumps=json.dumps, cls=Serialize)
 
-    @staticmethod
-    async def show(uid: int):
-        user = User.get_or_none(id=uid)
-        if user is None:
-            return response.json({'user': 'user not found in a project'}, status=404)
 
-        projects = [project.name_project for project in user.projects]
-
-        if len(projects) is 0:
-            return response.json({'user': 'user is not in a project'}, status=404)
-
-        return response.json(projects, dumps=json.dumps, cls=Serialize)
 
     @staticmethod
     async def destroy(id_project: int, id_users: int):
@@ -84,10 +74,36 @@ class ProjectUSerController:
         if user is None:
             return response.json({'user': 'user not found '}, status=404)
 
+        if user in project.users:
+            return response.json({'user': 'User already in this project'}, status=409)
+
         project.users.add(user)
         users = [model_to_dict(user) for user in project.users]
 
-        return response.json(users, dumps=json.dumps, cls=Serialize)
+        return response.json(users, status=201, dumps=json.dumps, cls=Serialize)
+
+
+class UserProjectController:
+    @staticmethod
+    async def index(uid: int):
+        user = User.get_or_none(id=uid)
+        if user is None:
+            return response.json({'user': 'user not found in this project'}, status=404)
+
+        projects = [project.name_project for project in user.p_users]
+
+        if len(projects) is 0:
+            return response.json({'user': 'user is not in this project'}, status=404)
+
+        return response.json(projects, dumps=json.dumps, cls=Serialize)
+
+    @staticmethod
+    async def delete():
+        pass
+
+
+
+
 
 
 
